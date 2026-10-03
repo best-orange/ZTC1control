@@ -1,0 +1,54 @@
+/* pages/settings/settings.wxss */
+page {
+  height: 100vh;
+  background: #f5f6fa;
+  display: flex; flex-direction: column;
+}
+.scrollarea { flex: 1; overflow-y: auto; padding: 24rpx; box-sizing: border-box; }
+
+.card {
+  background: #fff; border-radius: 16rpx; padding: 20rpx 28rpx; margin-bottom: 24rpx;
+}
+.card-title { font-size: 26rpx; color: #333; font-weight: 600; margin-bottom: 8rpx; }
+
+.status-card .row-head { display: flex; align-items: center; margin-bottom: 16rpx; }
+.status-dot { width: 20rpx; height: 20rpx; border-radius: 50%; margin-right: 12rpx; }
+.s-connected { background: #07c160; }
+.s-connecting, .s-reconnecting { background: #ffc300; }
+.s-unconnected { background: #d0d3da; }
+.status-title { font-size: 30rpx; font-weight: 600; }
+
+.row {
+  display: flex; align-items: center; min-height: 92rpx;
+  border-bottom: 1rpx solid #f2f3f7;
+}
+.row:last-child { border-bottom: none; }
+.label { width: 170rpx; color: #333; font-size: 28rpx; flex-shrink: 0; }
+.field { flex: 1; font-size: 28rpx; color: #1a1a1a; }
+/* 密码显隐切换：点击热区要够大（≥88rpx），否则真机上很难点中 */
+.eye {
+  font-size: 26rpx; color: #1989fa; padding: 20rpx 0 20rpx 24rpx;
+  flex-shrink: 0; min-width: 88rpx; text-align: right;
+}
+/* 账密错误等致命拒绝的常驻提示条 */
+.fatal {
+  background: #fff0f0; border: 1rpx solid #ffd6d6; border-radius: 12rpx;
+  padding: 20rpx; margin-bottom: 20rpx;
+  font-size: 24rpx; color: #d03050; line-height: 1.7;
+}
+
+.btn-row { display: flex; gap: 16rpx; }
+button { border-radius: 12rpx; height: 80rpx; line-height: 80rpx; font-size: 28rpx; }
+button::after { border: none; }
+.btn-primary { flex: 2; background: #1989fa; color: #fff; }
+.btn-ghost { flex: 1; background: #e8edf2; color: #333; }
+.danger-btn { background: #fff0f0; color: #fa5151; width: 100%; }
+
+.tip {
+  background: #fffbe8; border: 1rpx solid #ffe58f;
+  border-radius: 16rpx; padding: 24rpx;
+  font-size: 24rpx; color: #ad8b00; line-height: 1.8; margin-bottom: 24rpx;
+}
+.tip-title { font-weight: 600; margin-bottom: 6rpx; }
+
+.danger { margin-top: 4rpx; }

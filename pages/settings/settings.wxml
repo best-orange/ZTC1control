@@ -1,0 +1,63 @@
+<!--pages/settings/settings.wxml-->
+<navigation-bar title="设置" back="{{true}}" color="#000000" background="#FFFFFF" />
+
+<scroll-view class="scrollarea" scroll-y>
+  <!-- 连接状态 -->
+  <view class="card status-card">
+    <view class="row-head">
+      <view class="status-dot s-{{status}}"></view>
+      <text class="status-title">{{statusText}}</text>
+    </view>
+    <!-- 账密错误这类致命拒绝：常驻展示，否则用户只看到一句转瞬即逝的 toast -->
+    <view class="fatal" wx:if="{{fatalReason}}">连接被服务器拒绝：{{fatalReason}}。请检查下方用户名与密码。</view>
+    <view class="row btn-row">
+      <button class="btn-primary" bindtap="onSaveAndConnect">连接服务器</button>
+      <button class="btn-ghost" bindtap="onDisconnect">断开</button>
+    </view>
+  </view>
+
+  <!-- MQTT 服务器配置 -->
+  <view class="card">
+    <view class="card-title">MQTT 服务器（Cloudflare Tunnel + wss）</view>
+    <view class="row">
+      <text class="label">服务器地址</text>
+      <input class="field" placeholder="wss://mqtt.example.com" value="{{url}}" bindinput="onUrl" />
+    </view>
+    <view class="row">
+      <text class="label">路径</text>
+      <input class="field" placeholder="/mqtt" value="{{path}}" bindinput="onPath" />
+    </view>
+    <view class="row">
+      <text class="label">用户名</text>
+      <input class="field" placeholder="必填（匿名连接已关闭）" value="{{username}}" bindinput="onUser" />
+    </view>
+    <view class="row">
+      <text class="label">密码</text>
+      <input class="field" password="{{!showPass}}" placeholder="{{hasPassword ? '已保存，留空则沿用' : '必填'}}" value="{{password}}" bindinput="onPass" />
+      <text class="eye" bindtap="togglePass">{{showPass ? '隐藏' : '显示'}}</text>
+    </view>
+    <view class="row">
+      <text class="label">心跳(秒)</text>
+      <input class="field" type="number" value="{{keepalive}}" bindinput="onKeep" />
+    </view>
+  </view>
+
+  <view class="tip">
+    <view class="tip-title">使用说明</view>
+    <view class="tip-line">1. 服务器地址填 CF Tunnel 的域名（wss，443 端口，无需填端口号）。</view>
+    <view class="tip-line">2. 小程序正式发布需在微信公众平台「服务器域名」加入 wss 合法域名。</view>
+    <view class="tip-line">3. 开发调试可在微信开发者工具勾选「不校验合法域名」。</view>
+    <view class="tip-line">4. 设备(ESP8266)仍走 MQTT TCP 1883，由 broker 中转，无需改动固件。</view>
+    <view class="tip-line">5. 你的 MQTT 服务需关闭匿名（allow_anonymous false）并创建用户，本页填写该用户名/密码。</view>
+    <view class="tip-line">6. 密码仅保存在本机 Storage，且不会回填到输入框；留空表示沿用已保存的密码。</view>
+    <view class="tip-line">7. 存储在本地为明文（小程序 Storage 限制），请勿在公用设备上使用。</view>
+    <view class="tip-line">8. 若公网暴露 MQTT 服务，务必使用强密码——暴露在公网的 broker 会持续被扫描爆破。</view>
+  </view>
+
+  <view class="card danger">
+    <view class="card-title">数据管理</view>
+    <view class="row btn-row">
+      <button class="danger-btn" bindtap="onClearDevices">清空设备列表</button>
+    </view>
+  </view>
+</scroll-view>

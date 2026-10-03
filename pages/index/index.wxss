@@ -1,0 +1,109 @@
+/* pages/index/index.wxss */
+page {
+  height: 100vh;
+  background: #f5f6fa;
+  display: flex;
+  flex-direction: column;
+}
+.scrollarea {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16rpx 24rpx 60rpx;
+  box-sizing: border-box;
+}
+
+.nav-btn {
+  color: #1989fa;
+  font-size: 28rpx;
+  padding: 0 24rpx;
+}
+.nav-btn-hover { opacity: 0.6; }
+
+.statusbar {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 20rpx 24rpx;
+  margin-bottom: 24rpx;
+  font-size: 26rpx;
+}
+.statusbar .dot {
+  width: 16rpx; height: 16rpx; border-radius: 50%;
+  margin-right: 12rpx;
+  flex-shrink: 0;
+}
+.status-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+}
+.status-info .status-text { flex-shrink: 0; }
+.status-connected .dot { background: #07c160; }
+.status-connecting .dot { background: #ffc300; }
+.status-reconnecting .dot { background: #ffc300; }
+.status-unconnected .dot { background: #b0b3bd; }
+.status-connected .status-text { color: #07c160; }
+.status-connecting .status-text, .status-reconnecting .status-text { color: #b8860b; }
+.status-tip { color: #999; font-size: 24rpx; margin-left: 8rpx; }
+.settings-link {
+  color: #1989fa;
+  font-size: 26rpx;
+  font-weight: 600;
+  padding: 8rpx 0 8rpx 24rpx;
+  flex-shrink: 0;
+}
+
+.dev-list .device-row {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 28rpx 24rpx;
+  margin-bottom: 16rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.04);
+}
+.device-row:active { background: #f7f8fc; }
+.device-row .conn {
+  width: 20rpx; height: 20rpx; border-radius: 50%;
+  margin-right: 20rpx; flex-shrink: 0;
+}
+.device-row .conn.on { background: #07c160; }
+.device-row .conn.off { background: #d0d3da; }
+.dev-info { flex: 1; min-width: 0; }
+.dev-name { font-size: 32rpx; font-weight: 600; color: #1a1a1a; }
+.dev-type { font-size: 24rpx; color: #9699a3; margin-top: 6rpx; }
+.dev-arrow { color: #c2c5cc; font-size: 44rpx; }
+.hint { color: #b0b3b9; font-size: 24rpx; text-align: center; margin-top: 12rpx; }
+
+/* 常驻“添加设备”悬浮按钮 */
+.fab {
+  position: fixed; right: 40rpx; bottom: 80rpx;
+  width: 112rpx; height: 112rpx; border-radius: 50%;
+  background: #1989fa; color: #fff;
+  font-size: 64rpx; line-height: 108rpx; text-align: center;
+  box-shadow: 0 8rpx 24rpx rgba(25, 137, 250, 0.4);
+  z-index: 50;
+}
+.fab-hover { opacity: 0.85; transform: scale(0.96); }
+
+.empty {
+  display: flex; flex-direction: column; align-items: center;
+  padding-top: 120rpx;
+}
+.empty-icon { font-size: 96rpx; }
+.empty-title { font-size: 36rpx; font-weight: 600; margin-top: 20rpx; }
+.empty-sub { color: #9699a3; font-size: 26rpx; margin-top: 12rpx; }
+.cta {
+  margin-top: 40rpx;
+  background: #1989fa; color: #fff;
+  border-radius: 48rpx; padding: 0 56rpx;
+  height: 88rpx; font-size: 30rpx;
+  white-space: nowrap;   /* 防止窄屏下文字换行 */
+  box-sizing: border-box;
+  display: flex; align-items: center; justify-content: center;  /* 文字水平+垂直居中 */
+  text-align: center;
+}
+.cta::after { border: none; }
+.cta.plain { background: #fff; color: #1989fa; border: 1rpx solid #1989fa; margin-top: 20rpx; }

@@ -1,0 +1,108 @@
+<!--pages/device-control/device-control.wxml-->
+<navigation-bar title="{{name}}" back="{{true}}" color="#000000" background="#FFFFFF">
+  <view slot="right" class="nav-actions">
+    <view class="refresh" hover-class="nav-btn-hover" bindtap="onTitleTap">改名</view>
+    <view class="refresh" hover-class="nav-btn-hover" bindtap="onManualRefresh">刷新</view>
+  </view>
+</navigation-bar>
+
+<scroll-view class="scrollarea" scroll-y>
+  <!-- 连接/在线状态 -->
+  <view class="connbar conn-{{online ? 'on' : 'off'}}">
+    <view class="dot"></view>
+    <text class="conn-text">{{online ? '设备在线' : '设备离线'}}</text>
+    <text class="mqtt-text">MQTT: {{statusText}}</text>
+  </view>
+
+  <!-- 信息卡 -->
+  <view class="card">
+    <view class="kv"><text class="k">类型</text><text class="v">{{typeName}}</text></view>
+    <view class="kv"><text class="k">MAC</text><text class="v mono">{{mac}}</text></view>
+    <view class="kv" wx:if="{{version}}"><text class="k">固件版本</text><text class="v">{{version}}</text></view>
+    <view class="kv" wx:if="{{power !== ''}}"><text class="k">当前功率</text><text class="v val">{{power}}</text></view>
+    <view class="kv" wx:if="{{totalTime !== ''}}"><text class="k">运行时间</text><text class="v">{{totalTime}}</text></view>
+  </view>
+
+  <!-- 插口控制 -->
+  <view class="card" wx:if="{{plugs.length}}">
+    <view class="master">
+      <view class="master-left">
+        <text class="master-label">总开关</text>
+        <text class="master-sub" wx:if="{{anyOn && !allOn}}">部分开启</text>
+        <text class="master-sub" wx:elif="{{allOn}}">全部开启</text>
+        <text class="master-sub" wx:else>全部关闭</text>
+      </view>
+      <switch checked="{{anyOn}}" bindchange="onAllChange" color="#1989fa"/>
+    </view>
+    <view class="plug-grid">
+      <view class="plug" wx:for="{{plugs}}" wx:key="id">
+        <view class="plug-info">
+          <text class="plug-name" bindtap="onPlugName" data-id="{{item.id}}">{{item.name}}</text>
+          <text class="plug-sub">插口{{item.id + 1}}</text>
+          <text class="plug-task" hover-class="plug-task-hover" bindtap="openTask" data-id="{{item.id}}">定时开关</text>
+        </view>
+        <switch checked="{{item.on}}" bindchange="onPlugChange" data-id="{{item.id}}" color="#1989fa"/>
+      </view>
+    </view>
+  </view>
+
+  <view class="tip" wx:if="{{!plugs.length}}">
+    当前设备类型暂未提供标准插口控制界面，仅显示基础信息（{{typeName}}）。若需控制，请确认固件协议并联系开发者适配。
+  </view>
+</scroll-view>
+
+<!-- 定时任务弹窗 -->
+<view class="mask" wx:if="{{showTask}}" bindtap="closeTask"></view>
+<view class="task-sheet" wx:if="{{showTask}}">
+    <view class="ts-head">
+      <text class="ts-title">定时开关 · {{taskPlugName}}</text>
+      <text class="ts-close" bindtap="closeTask">✕</text>
+    </view>
+    <view class="ts-tip">到点自动开/关对应插口，最多 5 组，点任务可编辑</view>
+    <scroll-view class="ts-scroll" scroll-y>
+      <view class="ts-item" wx:for="{{taskSlots}}" wx:key="index">
+        <switch checked="{{item.on}}" bindchange="onTaskSlotEnable" data-idx="{{index}}" color="#1989fa"/>
+        <view class="ts-info" bindtap="selectTask" data-idx="{{index}}">
+          <view class="ts-line">
+            <text class="ts-time">{{item.timeText}}</text>
+            <text class="ts-action {{item.action ? 'open' : 'close'}}">{{item.actionText}}</text>
+          </view>
+          <text class="ts-repeat">{{item.repeatText}}</text>
+        </view>
+      </view>
+
+      <view class="ts-editor" wx:if="{{selIdx >= 0}}">
+        <view class="ts-e-title">编辑任务{{selIdx + 1}}</view>
+        <view class="ts-row">
+          <text class="ts-label">时间</text>
+          <picker class="ts-picker" mode="selector" range="{{hourRange}}" value="{{editHour}}" bindchange="onTaskHour">
+            <view class="ts-picker-val">{{editHourText}} 时</view>
+          </picker>
+          <picker class="ts-picker" mode="selector" range="{{minuteRange}}" value="{{editMinute}}" bindchange="onTaskMinute">
+            <view class="ts-picker-val">{{editMinuteText}} 分</view>
+          </picker>
+        </view>
+        <view class="ts-row">
+          <text class="ts-label">操作</text>
+          <view class="ts-seg">
+            <view class="seg {{editAction === 1 ? 'on' : ''}}" data-v="1" bindtap="onTaskAction">开启</view>
+            <view class="seg {{editAction === 0 ? 'on' : ''}}" data-v="0" bindtap="onTaskAction">关闭</view>
+          </view>
+        </view>
+        <view class="ts-row">
+          <text class="ts-label">重复</text>
+          <view class="ts-week">
+            <view wx:for="{{week}}" wx:key="n" class="week {{item.on ? 'on' : ''}}" data-i="{{index}}" bindtap="onTaskWeek">{{item.n}}</view>
+          </view>
+        </view>
+        <view class="ts-enable">
+          <text class="ts-label">启用</text>
+          <switch checked="{{editOn === 1}}" bindchange="onTaskEnable" color="#1989fa"/>
+        </view>
+        <view class="ts-actions">
+          <button class="btn-del-bg" bindtap="delTask">删除</button>
+          <button class="btn-save-bg" bindtap="saveTask">保存</button>
+        </view>
+      </view>
+    </scroll-view>
+  </view>

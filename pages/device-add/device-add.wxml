@@ -1,0 +1,28 @@
+<!--pages/device-add/device-add.wxml-->
+<navigation-bar title="添加设备" back="{{true}}" color="#000000" background="#FFFFFF">
+  <view slot="right" class="nav-btn" bindtap="onAdd">保存</view>
+</navigation-bar>
+
+<scroll-view class="scrollarea" scroll-y>
+  <view class="card">
+    <view class="row">
+      <text class="label">设备类型</text>
+      <picker mode="selector" range="{{typeRange}}" value="{{typeIndex}}" bindchange="onTypeChange" class="picker">
+        <view class="picker-value">{{type}} <text class="arrow"></text></view>
+      </picker>
+    </view>
+    <view class="row">
+      <text class="label">MAC 地址</text>
+      <input class="field" placeholder="12位十六进制，如 d0bae4638baa" value="{{mac}}" bindinput="onMac" />
+    </view>
+  </view>
+
+  <view class="tip">
+    <view class="tip-title">ℹ️ 说明</view>
+    <view class="tip-line">· MAC 为被控设备固件的 MAC，需与设备实际一致才能收发指令。</view>
+    <view class="tip-line">· 共 12 位十六进制字符（0-9 / a-f），大小写与冒号分隔均支持，会自动归一化。</view>
+    <view class="tip-line">· 添加后设备名默认为类型名，在设备列表点击名字即可改成你想要的名字。</view>
+    <view class="tip-line">· 局域网设备通过 MQTT 的 availability 自动同步在线状态。</view>
+    <view class="tip-line">· 小程序无法做局域网 UDP 广播扫描，请手动录入或咨询固件如何上报。</view>
+  </view>
+</scroll-view>

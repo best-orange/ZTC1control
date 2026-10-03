@@ -1,0 +1,45 @@
+# ---- 微信开发者工具 ----
+# 个人本地配置（含本地路径、个人编译设置），官方约定不入库
+project.private.config.json
+
+# 工具生成的临时文件
+.wxss.bak
+*.wxss.bak
+.mini-ide/
+.tea/
+
+# ---- 依赖与构建产物 ----
+node_modules/
+miniprogram_npm/
+dist/
+build/
+
+# ---- 密钥 / 凭据（绝不能入库）----
+# 未来若加入「自建 MQTT 服务」的部署脚本，这些必须排除
+*.pem
+*.key
+*.crt
+*.p12
+passwd
+dynamic-security.json
+aclfile
+.env
+.env.*
+!.env.example
+secrets/
+credentials/
+
+# ---- 系统与编辑器 ----
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+*.swp
+*~
+
+# ---- 日志 ----
+*.log
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
