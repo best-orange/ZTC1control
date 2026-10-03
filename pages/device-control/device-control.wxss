@@ -86,11 +86,22 @@ page {
   padding: 28rpx 30rpx calc(28rpx + env(safe-area-inset-bottom));
   box-sizing: border-box;
 }
+/* Skyline 适配：父容器只有 max-height（无确定高度）时，flex:1 的子滚动区会被
+   算成 0 高度，导致列表内容全部不渲染（表现为“只看到标题栏、下面全空”）。
+   给列表区一个确定高度即可在 Skyline / WebView 下都稳定渲染。 */
 .ts-head { display: flex; align-items: center; justify-content: space-between; padding-bottom: 12rpx; }
 .ts-title { font-size: 32rpx; font-weight: 600; color: #1a1a1a; }
 .ts-close { font-size: 32rpx; color: #999; padding: 0 8rpx; }
-.ts-tip { font-size: 22rpx; color: #9699a3; padding-bottom: 16rpx; border-bottom: 1rpx solid #f0f1f5; }
-.ts-scroll { flex: 1; overflow-y: auto; max-height: 55vh; }
+.ts-tip { font-size: 22rpx; color: #9699a3; padding-bottom: 16rpx; }
+/* Skyline 适配：父容器 .task-sheet 只有 max-height（无确定高度），若 .ts-scroll 仅靠
+   flex:1 撑高，Skyline 会把列表区算成 0 高度 → 内容不渲染（只见标题栏、下面全空）。
+   这里改为确定高度的滚动区，Skyline / WebView 下都能稳定显示。 */
+.ts-scroll {
+  flex: 1;
+  height: 52vh;
+  max-height: 52vh;
+  overflow-y: auto;
+}
 .ts-item {
   display: flex; align-items: center;
   padding: 16rpx 0; border-bottom: 1rpx solid #f2f3f7;
